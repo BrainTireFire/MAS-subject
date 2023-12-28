@@ -1,0 +1,128 @@
+<div class='row'>
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
+            <h3 class="mb-0">Diet Plans</h3>
+            <button class="btn btn-primary btn-lg" (click)="openAddDietPlanModal(addDietPlanModal)" >Create</button>
+          </div>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let dietPlan of dietPlans">
+          <h4 class="mb-3">{{dietPlan.name}}</h4>
+          <div>
+            <strong>Description:</strong> {{dietPlan.description}}<br>
+            <strong>Plan calories:</strong> {{dietPlan.planCalories}}<br>
+            <strong>Active:</strong> {{dietPlan.active}}
+          </div>
+          <div *ngIf="dietPlan.dishes && dietPlan.dishes.length > 0">
+            <strong>Dishes:</strong>
+            <ul>
+              <li *ngFor="let dish of dietPlan.dishes">
+                <strong>Name of dish:</strong> {{dish.name}}<br>
+                <strong>Description:</strong> {{dish.description}}<br>
+                <strong>Amount of calories:</strong> ({{dish.amountOfCaloriesInTheDish}} calories)
+              </li>
+            </ul>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-warning" style='margin-right: 5px;'>Edit</button>
+            <button class="btn btn-danger">Remove</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <ng-template #addDietPlanModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Diet Plan</h4>
+          <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add Diet Plan Form -->
+          <form (ngSubmit)="addDietPlan(addDishesModal)">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" [(ngModel)]="newDietPlan.name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" id="description" [(ngModel)]="newDietPlan.description" name="description" required>
+            </div>
+            <div class="form-group">
+              <label for="planCalories">Plan Calories</label>
+              <input type="number" class="form-control" id="planCalories" [(ngModel)]="newDietPlan.planCalories" name="planCalories" required>
+            </div>
+            <div class="form-group">
+              <label for="active">Active</label>
+              <input type="checkbox" class="form-control" id="active" [(ngModel)]="newDietPlan.active" name="active">
+            </div>
+          </form>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" (click)="addDietPlan(addDishesModal)">Add Diet Plan</button>
+            <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #addDishesModal>
+    <div class="modal-header">
+      <h4 class="modal-title">Add Dishes to plan</h4>
+      <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="addDishesToPlan()">
+        <div class="form-group">
+          <label for="dishIds">Select Dishes:</label>
+          <select class="form-control" id="dishIds" name="dishIds" required multiple [(ngModel)]="selectedDishIds">
+            <option *ngFor="let dish of dishes" [value]="dish.idDish">{{ dish.name }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelDishAdd(addDietPlanModal)">Previous</button>
+      <button type="submit" class="btn btn-primary  ml-10" (click)="openAddNewDish(addNewDishModal)">Add new dish</button>
+      <button type="submit" class="btn btn-primary" (click)="addDishesToPlan()">Add dishes to plan</button>
+    </div>
+  </ng-template>
+
+  <ng-template #addNewDishModal>
+    <div class="modal-header">
+      <h4 class="modal-title">Add Dishes</h4>
+      <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="addNewDishes(addDishesModal)">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="newDish.name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <textarea class="form-control" id="description" name="description" [(ngModel)]="newDish.description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="calories">Amount of Calories:</label>
+              <input type="number" class="form-control" id="calories" name="calories" [(ngModel)]="newDish.amountOfCaloriesInTheDish" required>
+            </div>
+            
+          </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelDishAdd(addDishesModal)">Previous</button>
+      <button type="submit" class="btn btn-primary" (click)="addNewDishes(addDishesModal)">Submit</button>
+    </div>
+  </ng-template>
+  
+  
