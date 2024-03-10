@@ -3,6 +3,7 @@
 FueliciousFit is a robust system designed to enhance training, promote healthy eating habits, and manage diet plans for a nutrition and fitness company. This README provides an overview of the system's features, requirements, and use cases.
 
 ## Features:
+C# and angularts
 
 1. **Customer Management:**
    - Store customer contact information (unique user ID, name, email, optional phone).
